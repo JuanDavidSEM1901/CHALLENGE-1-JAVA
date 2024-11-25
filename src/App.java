@@ -1,4 +1,3 @@
-import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class App {
@@ -6,41 +5,41 @@ public class App {
     static Scanner entry = new Scanner(System.in);
 
     // ARREGLO DE PLANETAS Y SUS DISTANCIAS DESDE LA TIERRA
-    static String[] planetas = { "Mercurio", "Venus", "Marte", "Jupiter", "Saturno", "Urano", "Neptuno" };
-    static long[] distancias = { 77000000L, 41000000L, 55000000L, 588000000L, 1275000000L, 2900000000L, 4500000000L };
+    static String[] planets = { "Mercurio", "Venus", "Marte", "Jupiter", "Saturno", "Urano", "Neptuno" };
+    static long[] distances = { 77000000L, 41000000L, 55000000L, 588000000L, 1275000000L, 2900000000L, 4500000000L };
 
     // INFORMACION DE LAS NAVES
-    static String[] naves = { "Nave Nebulon", "Nave Eclipse", "Nave Aurora" };
-    static int[] capacidades = { 150, 300, 350 };
-    static double[] velocidades = { 35000, 43000, 50000 };
+    static String[] spaceShips = { "Nave Nebulon", "Nave Eclipse", "Nave Aurora" };
+    static int[] capacity = { 150, 300, 350 };
+    static double[] speeds = { 35000, 43000, 50000 };
 
     // INFORMACION DE LOS RECURSOS
     // consumo de combustible por hora
-    static double combustiblePorHora = 200.0; // Unidades consumidas por hora
+    static double fuelHour = 200.0; // Unidades consumidas por hora
     // consumo de oxígeno por hora
-    static double oxigenoPorHora = 60.0; // Unidades consumidas por hora
-    static long combustible = 100_000_000; // Unidades iniciales de combustible
-    static long oxigeno = 100_000_000; // Unidades iniciales de oxígeno
+    static double oxygenHour = 60.0; // Unidades consumidas por hora
+    static long fuel = 100_000_000; // Unidades iniciales de combustible
+    static long oxygen = 100_000_000; // Unidades iniciales de oxígeno
 
     // VARIABLES PARA ALMACENAR DATOS
-    static String naveSeleccionada;
-    static String planetaSeleccionado;
-    static long distanciaPlanetaSeleccionado;
-    static double velocidadNaveSeleccionada;
-    static int opcion;
-    static int opcionNave;
+    static String spaceShipSelected;
+    static String planetSelected;
+    static long distancePlanetSelected;
+    static double speedSpaceShipSelected;
+    static int option;
+    static int optionSpaceShip;
 
     public static void main(String[] args) throws Exception {
-        menuPrincipal(); // MOSTRAR MENU PRINCIPAL
+        mainMenu(); // MOSTRAR MENU PRINCIPAL
 
     }
 
-    public static void menuPrincipal() {
-        boolean salir = false;
-        boolean opcion1Seleccionada = false; // CONTROLA SELECCION PLANETAS
-        boolean opcion2Seleccionada = false; // CONTROLA SELECCION NAVES
+    public static void mainMenu() {
+        boolean getOut = false;
+        boolean option1Selected = false; // CONTROLA SELECCION PLANETAS
+        boolean option2Selected = false; // CONTROLA SELECCION NAVES
 
-        while (!salir) {
+        while (!getOut) {
             System.out.println("\n--- Menu Principal ---");
             System.out.println("1. Seleccionar planeta de destino");
             System.out.println("2. Seleccionar una nave espacial");
@@ -49,10 +48,10 @@ public class App {
             System.out.print("Por favor, elige una opción: ");
 
             if (entry.hasNextInt()) { // VERIFICAR SI LA ENTRADA ES UN NUMERO
-                int opcion = entry.nextInt(); // ALMACENAR LA OPCION DEL USUARIO
+                int option = entry.nextInt(); // ALMACENAR LA OPCION DEL USUARIO
                 entry.nextLine(); // Limpiar el buffer de entrada
 
-                switch (opcion) {
+                switch (option) {
                     case 1:
                         /*
                          * OPCION SELECCIONAR PLANETA DE DESTINO
@@ -62,14 +61,14 @@ public class App {
                          * DEBE SEGUIR UN ORDEN COHERENTE.
                          */
                         // SI EL PLANETA NO HA SIDO SELECCIONADO
-                        if (!opcion1Seleccionada) {
-                            seleccionPlanetas();// LLAMAR EL METODO PARA SELECCIONAR PLANETA
+                        if (!option1Selected) {
+                            planetSelection();// LLAMAR EL METODO PARA SELECCIONAR PLANETA
                             System.out.println("_");
                             System.out.println("PRESIONE 8 para CONFIRMAR y VOLVER AL MENU PRINCIPAL");
                             // VERIFICAR SI EL USUARIO PRESIONA 8 PARA CONFIRMAR Y QUE INGRESA UN NUMERO
                             // ENTERO
                             if (entry.hasNextInt() && entry.nextInt() == 8) {
-                                opcion1Seleccionada = true; // CONFIRMAR LA SELECCION DEL PLANETA
+                                option1Selected = true; // CONFIRMAR LA SELECCION DEL PLANETA
                                 System.out.println("Planeta de destino confirmado correctamente.");
                             } else {
                                 System.out.println("Debes presionar 8 para confirmar.");
@@ -80,18 +79,18 @@ public class App {
                         break;
 
                     case 2:
-                        if (opcion1Seleccionada && !opcion2Seleccionada) { // SI EL PLANETA YA ESTA SELECCIONADO PERO LA
-                                                                           // NAVE AUN NO
-                            seleccionNaves(); // LLAMAR EL METODO PARA SELECCIONAR NAVES
+                        if (option1Selected && !option2Selected) { // SI EL PLANETA YA ESTA SELECCIONADO PERO LA
+                                                                   // NAVE AUN NO
+                            spaceShipSelection(); // LLAMAR EL METODO PARA SELECCIONAR NAVES
                             System.out.println("_");
                             System.out.println("PRESIONE 8 para CONFIRMAR y VOLVER AL MENU PRINCIPAL");
                             if (entry.hasNextInt() && entry.nextInt() == 8) {
-                                opcion2Seleccionada = true; // CONFIRMAR SELECCION DE NAVE
+                                option2Selected = true; // CONFIRMAR SELECCION DE NAVE
                                 System.out.println("Nave espacial confirmada correctamente.");
                             } else {
                                 System.out.println("Debes presionar 8 para confirmar.");
                             }
-                        } else if (!opcion1Seleccionada) { // SI EL PLANETA NO HA SIDO SELECCIONADO
+                        } else if (!option1Selected) { // SI EL PLANETA NO HA SIDO SELECCIONADO
                             System.out.println("Primero debes seleccionar un planeta de destino (opción 1).");
                         } else {
                             System.out.println("Ya seleccionaste una nave. Procede a la opción 3.");
@@ -100,14 +99,14 @@ public class App {
 
                     case 3:
                         // MOSTRAR EL TIEMPO ESTIMADO DE VIAJE DESDE LA TIERRA HASTA EL PLANETA
-                        tiempoDeViaje();
+                        travelTime();
                         // recursos
-                        verificarRecursos(distanciaPlanetaSeleccionado);
-                        if (opcion1Seleccionada && opcion2Seleccionada) { // SI LA NAVE Y EL PLANETA YA FUERON
-                                                                          // SELECCIONADOS
-                            iniciarSimulacionViaje(opcion); // INICIAR SIMULACION!
+                        verifyResources(distancePlanetSelected);
+                        if (option1Selected && option2Selected) { // SI LA NAVE Y EL PLANETA YA FUERON
+                                                                  // SELECCIONADOS
+                            startTravelSimulation(option); // INICIAR SIMULACION!
 
-                        } else if (!opcion1Seleccionada) { // SI LA OPCION DEL PLANETA NO HA SIDO SELECCIONADO
+                        } else if (!option1Selected) { // SI LA OPCION DEL PLANETA NO HA SIDO SELECCIONADO
                             System.out.println("Primero debes seleccionar un planeta de destino (opción 1).");
                         } else { // SI LA NAVE NO HA SIDO SELECCIONADA
                             System.out.println("Debes seleccionar una nave antes de iniciar el vuelo (opción 2).");
@@ -116,7 +115,7 @@ public class App {
 
                     case 4: // SALIR DEL PROGRAMA
                         System.out.println("Saliendo del programa. ¡Gracias por usar nuestra aplicación!");
-                        salir = true;
+                        getOut = true;
                         break;
 
                     default:
@@ -129,38 +128,39 @@ public class App {
         }
     }
 
-    public static void seleccionNaves() {
+    public static void spaceShipSelection() {
 
         System.out.println("----------------");
         System.out.println("Naves Espaciales");
         System.out.println("----------------");
 
         // ITERAR LAS NAVES CON EL BUCLE FOR
-        for (int i = 0; i < naves.length; i++) {
+        for (int i = 0; i < spaceShips.length; i++) {
             // MOSTRAR NAVES DISPONIBLES RECORRIENDO EL ARREGLO DE NAVES
-            System.out.println((i + 1) + " " + naves[i]); // Se suma 1 a 'i' para que el usuario vea una lista
-                                                          // comenzando en 1 en lugar de 0
+            System.out.println((i + 1) + " " + spaceShips[i]); // Se suma 1 a 'i' para que el usuario vea una lista
+            // comenzando en 1 en lugar de 0
             // MOSTRAR CAPACIDAD Y VELOCIDAD DE CADA NAVE
-            mostrarCapacidadYVelocidadNaves(i); // Llama a un método que muestra detalles adicionales de la nave
+            showCapacityVelocitySpaceShips(i); // Llama a un método que muestra detalles adicionales de la nave muestra
+                                               // velocidad y capacidad de las naves
 
         }
         // PEDIR AL USUARIO QUE ELIGA UNA DE LAS NAVES
         System.out.println("Seleccione una nave: ");
-        opcionNave = entry.nextInt(); // Captura la opción seleccionada por el usuario
+        optionSpaceShip = entry.nextInt(); // Captura la opción seleccionada por el usuario
         entry.nextLine(); // Limpia el buffer de entrada
         System.out.println("Ingrese la cantidad de pasajeros:");
-        var pasajeros = entry.nextInt(); // Captura la cantidad de pasajeros ingresada por el usuario
+        var passengers = entry.nextInt(); // Captura la cantidad de pasajeros ingresada por el usuario
 
         // VERIFICAR SI EL INGRESO DE PASAJEROS EXCEDE LA CAPACIDAD DE LA NAVE
-        if (opcionNave == 1 && pasajeros <= 150) {
+        if (optionSpaceShip == 1 && passengers <= 150) {
             System.out.println("Selección exitosa!");
-        } else if (opcionNave == 2 && pasajeros <= 300) {
+        } else if (optionSpaceShip == 2 && passengers <= 300) {
             System.out.println("Selección exitosa!");
-        } else if (opcionNave == 3 && pasajeros <= 350) {
+        } else if (optionSpaceShip == 3 && passengers <= 350) {
             System.out.println("Selección exitosa!");
         } else {
             System.out.println("Cantidad de pasajeros no valida! Intente de nuevo");
-            seleccionNaves(); // Llama nuevamente a la función si el número de pasajeros excede la capacidad
+            spaceShipSelection(); // Llama nuevamente a la función si el número de pasajeros excede la capacidad
         }
 
         // almacenar velocidad nave seleccionada
@@ -169,40 +169,42 @@ public class App {
          * array. Esto se debe a que los arrays en Java están indexados desde 0, pero el
          * usuario selecciona comenzando en 1.
          */
-        naveSeleccionada = naves[opcionNave - 1]; // Almacena la nave seleccionada usando un índice ajustado a 0
-        velocidadNaveSeleccionada = velocidades[opcionNave - 1]; // Almacena la velocidad de la nave seleccionada usando
-                                                                 // un índice ajustado a 0
+        spaceShipSelected = spaceShips[optionSpaceShip - 1]; // Almacena la nave seleccionada usando un índice ajustado
+                                                             // a 0
+        speedSpaceShipSelected = speeds[optionSpaceShip - 1]; // Almacena la velocidad de la nave seleccionada usando
+                                                              // un índice ajustado a 0
 
         // VERIFICAR QUE SELECCIONO UNA NAVE VALIDA
-        if (opcionNave > 0 && opcionNave <= 3) { // Asegura que la opción de la nave esté dentro del rango válido
-            System.out.println("SELECCIONASTE LA NAVE: " + naveSeleccionada);
+        if (optionSpaceShip > 0 && optionSpaceShip <= 3) { // Asegura que la opción de la nave esté dentro del rango
+                                                           // válido
+            System.out.println("SELECCIONASTE LA NAVE: " + spaceShipSelected);
         } else {
 
             System.out.println("Opción inválida, intente de nuevo.");
-            seleccionNaves(); // Llama nuevamente a la función si la opción es inválida
+            spaceShipSelection(); // Llama nuevamente a la función si la opción es inválida
         }
 
     }
 
-    private static void mostrarCapacidadYVelocidadNaves(int i) {
+    private static void showCapacityVelocitySpaceShips(int i) {
         if (i == 0) {
             // velocidad
-            System.out.println("Velocidad de la Nave Nebulon: " + velocidades[0] + " km/h");
+            System.out.println("Velocidad de la Nave Nebulon: " + speeds[0] + " km/h");
             // pasajeros
-            System.out.println("Capacidad: Pasajeros: " + capacidades[0]);
+            System.out.println("Capacidad: Pasajeros: " + capacity[0]);
 
         } else if (i == 1) {
-            System.out.println("Velocidad de la Nave Eclipse: " + velocidades[1] + " km/h");
+            System.out.println("Velocidad de la Nave Eclipse: " + speeds[1] + " km/h");
             // pasajeros
-            System.out.println("Capacidad: Pasajeros: " + capacidades[1]);
+            System.out.println("Capacidad: Pasajeros: " + capacity[1]);
         } else if (i == 2) {
-            System.out.println("Velocidad de la Nave Eclipse: " + velocidades[2] + " km/h");
+            System.out.println("Velocidad de la Nave Eclipse: " + speeds[2] + " km/h");
             // pasajeros
-            System.out.println("Capacidad: Pasajeros: " + capacidades[2]);
+            System.out.println("Capacidad: Pasajeros: " + capacity[2]);
         }
     }
 
-    public static void seleccionPlanetas() {
+    public static void planetSelection() {
 
         System.out.println("--------");
         System.out.println("Planetas");
@@ -211,30 +213,29 @@ public class App {
         // MOSTRAR OPCIONES DE PLANETAS
         System.out.println(
                 "Seleccione un Planeta:\n1.Mercurio\n2.Venus\n3.Marte\n4.Jupiter\n5.Saturno\n6.Urano\n7.Neptuno");
-        int seleccionPlaneta = entry.nextInt();
+        int planetSelection = entry.nextInt();
         entry.nextLine();
         // ALMACENAR EL PLANETA SELECCIONADO Y LA DISTANCIA
         // El índice seleccionado por el usuario se ajusta restando 1 para acceder
         // correctamente al array
-        planetaSeleccionado = planetas[seleccionPlaneta - 1];
-        distanciaPlanetaSeleccionado = distancias[seleccionPlaneta - 1];
+        planetSelected = planets[planetSelection - 1];
+        distancePlanetSelected = distances[planetSelection - 1];
 
         // MOSTRAR INFORMACION DEL PLANETA SELECCIONADO
-        System.out.println("Has seleccionado: " + planetas[seleccionPlaneta - 1] + "\n");
+        System.out.println("Has seleccionado: " + planets[planetSelection - 1] + "\n");
 
         // MOSTRAR DISTANCIA DEL PLANETA SELECCIONADO DESDE LA TIERRA
-        System.out
-                .println("Distancia desde la Tierra: " + distancias[seleccionPlaneta - 1] + " millones de Kilometros");
+        System.out.println("Distancia desde la Tierra: " + distances[planetSelection - 1] + " millones de Kilometros");
 
         // MOSTRAR INFORMACION DEL PLANETA SELECCIONADO
         // Mostrar información adicional del planeta seleccionado llamando a un método
         // específico
-        imprimirInformacionPlaneta(seleccionPlaneta); // Llama a un método para imprimir información detallada del
-                                                      // planeta seleccionado
+        printPlanetInformation(planetSelection); // Llama a un método para imprimir información detallada del
+                                                     // planeta seleccionado
 
     }
 
-    public static void tiempoDeViaje() {
+    public static void travelTime() {
 
         /*
          * El tiempo de viaje se calcula dividiendo la distancia al planeta seleccionado
@@ -246,110 +247,108 @@ public class App {
         // Calcular el tiempo estimado de viaje en días, dado que la distancia se divide
         // por la velocidad y luego se convierte a días
 
-        long tiempoEstimado = (long) (distanciaPlanetaSeleccionado / velocidadNaveSeleccionada) / 24;
+        long estimatedTime = (long) (distancePlanetSelected / speedSpaceShipSelected) / 24;
 
         System.out.println("TIEMPO DE VIAJE ESTIMADO");
-        System.out.println(
-                "A continuación se estimarán los tiempos de viaje y recursos para ir al planeta en nuestro sistema solar:");
+        System.out.println("A continuación se estimarán los tiempos de viaje y recursos para ir al planeta en nuestro sistema solar:");
         // Mostrar el tiempo estimado para llegar al planeta seleccionado
-        System.out.println("El tiempo estimado para ir al planeta " + planetaSeleccionado + " con la "
-                + naveSeleccionada + " es de " + tiempoEstimado + " DIAS.");
+        System.out.println("El tiempo estimado para ir al planeta " + planetSelected + " con la "+ spaceShipSelected + " es de " + estimatedTime + " DIAS.");
         // Mostrar el combustible disponible
-        System.out.println("Combustible disponible: " + combustible + " unidades.");
+        System.out.println("Combustible disponible: " + fuel + " unidades.");
 
         // Mostrar el oxígeno disponible
-        System.out.println("Oxígeno disponible: " + oxigeno + " unidades.");
+        System.out.println("Oxígeno disponible: " + oxygen + " unidades.");
         System.out.println("------------------------------------------------------------");
     }
 
-    public static void verificarRecursos(long distancia) {
+    public static void verifyResources(long distancias) {
         // tiempo estimado en horas
-        long tiempoEstimadoHoras = (long) (distanciaPlanetaSeleccionado / velocidadNaveSeleccionada);
+        long estimatedTimeHours = (long) (distancePlanetSelected / speedSpaceShipSelected);
 
         // Calcular los recursos necesarios basados en el tiempo estimado de viaje
-        long combustibleNecesario = (long) (tiempoEstimadoHoras * combustiblePorHora);
-        long oxigenoNecesario = (long) (tiempoEstimadoHoras * oxigenoPorHora);
+        long fuelNeeded = (long) (estimatedTimeHours * fuelHour);
+        long oxygenNeeded = (long) (estimatedTimeHours * oxygenHour);
 
         // verificar si hay recursos suficientes
-        if (combustible >= combustibleNecesario && oxigeno >= oxigenoNecesario) {
+        if (fuel >= fuelNeeded && oxygen >= oxygenNeeded) {
             // Si los recursos son suficientes, imprimir un mensaje de confirmación
-            System.out.println("¡Recursos suficientes para el viaje a" + planetaSeleccionado);
-            System.out.println("COMBUSTIBLE NECESARIO: " + combustibleNecesario + " unidades");
-            System.out.println("OXÍGENO NECESARIO: " + oxigenoNecesario + " unidades");
+            System.out.println("¡Recursos suficientes para el viaje a " + planetSelected);
+            System.out.println("COMBUSTIBLE NECESARIO: " + fuelNeeded + " unidades");
+            System.out.println("OXÍGENO NECESARIO: " + oxygenNeeded + " unidades");
         } else {
             // Si no hay suficientes recursos, imprimir un mensaje de advertencia
             System.out.println("¡ATENCION! No hay recursos suficientes para completar el viaje");
             // Verificar si falta combustible
-            if (combustible < combustibleNecesario) {
-                double combustibleFaltante = combustibleNecesario - combustible;
-                System.out.println("FALTA COMBUSTIBLE: " + combustible + " unidades.");
-                recargarCombustible(combustibleFaltante); // llamar un metodo para recargar combustible
+            if (fuel < fuelNeeded) {
+                double combustibleFaltante = fuelNeeded - fuel;
+                System.out.println("FALTA COMBUSTIBLE: " + fuel + " unidades.");
+                reloadFuel(combustibleFaltante); // llamar un metodo para recargar combustible
 
             }
             // Verificar si falta oxígeno
-            if (oxigeno < oxigenoNecesario) {
-                System.out.println("FALTA OXÍGENO: " + (oxigenoNecesario - oxigeno) + " unidades.");
-                double oxigenoFaltante = oxigenoNecesario - oxigeno;
-                recargarOxigeno(oxigenoFaltante); // llamar un metodo para recargar oxigeno
+            if (oxygen < oxygenNeeded) {
+                System.out.println("FALTA OXÍGENO: " + (oxygenNeeded - oxygen) + " unidades.");
+                double oxigenoFaltante = oxygenNeeded - oxygen;
+                reloadOxygen(oxigenoFaltante); // llamar un metodo para recargar oxigeno
             }
         }
 
     }
 
-    private static void recargarOxigeno(double oxigenoFaltante) {
+    private static void reloadOxygen(double oxigenoFaltante) {
         // Mostrar mensaje para recargar oxígeno
         System.out.println("________________________________________");
         System.out.println("|                                       |");
         System.out.println("|   Oprima O para recargar el oxígeno   |");
         System.out.println("________________________________________");
         // Leer la entrada del usuario para recargar oxígeno
-        String recargarOxigeno = entry.nextLine().trim();
+        String reloadOxygen = entry.nextLine().trim();
         // Verificar si el usuario ingresó 'O' para recargar el oxígeno
-        if (recargarOxigeno.length() == 1 && recargarOxigeno.equalsIgnoreCase("O")) {
+        if (reloadOxygen.length() == 1 && reloadOxygen.equalsIgnoreCase("O")) {
             // Aumentar la cantidad de oxígeno disponible
-            oxigeno += oxigenoFaltante;
+            oxygen += oxigenoFaltante;
             System.out.println("Oxígeno recargado!");
             // Iniciar la simulación del viaje con la nueva cantidad de oxígeno
-            iniciarSimulacionViaje(oxigeno);
+            startTravelSimulation(oxygen);
         } else {
             // Mensaje de cancelación si el usuario no presiona 'O'
             System.out.println("_______________________________________________________");
             System.out.println("|  Recarga de oxígeno cancelada. Vuelva a intentarlo  |");
             System.out.println("_______________________________________________________");
-            menuPrincipal(); // volver al menuPrincipal
+            mainMenu(); // volver al menuPrincipal
         }
     }
 
-    private static void recargarCombustible(double combustibleFaltante) {
+    private static void reloadFuel(double combustibleFaltante) {
         // mostrar mensaje para recargar combustible
         System.out.println("____________________________________________");
         System.out.println("|                                           |");
         System.out.println("|   Oprima R para recargar el combustible   |");
         System.out.println("____________________________________________");
         // Leer la entrada del usuario para recargar combustible
-        String recargarCombustible = entry.nextLine().trim();
+        String reloadFuel = entry.nextLine().trim();
         // Verificar si el usuario ingresó 'R' para recargar el combustible
-        if (recargarCombustible.length() == 1 && recargarCombustible.equalsIgnoreCase("R")) {
+        if (reloadFuel.length() == 1 && reloadFuel.equalsIgnoreCase("R")) {
             // Aumentar la cantidad de combustible disponible
-            combustible += combustibleFaltante;
+            fuel += combustibleFaltante;
             System.out.println("Combustible recargado!");
             // Iniciar la simulación del viaje con la nueva cantidad de combustible
-            iniciarSimulacionViaje(combustible);
+            startTravelSimulation(fuel);
         } else {
             // Mensaje de cancelación si el usuario no presiona 'R'
             System.out.println("________________________________________________________");
             System.out.println("| Recarga de combustible cancelada. Vuelva a intentarlo |");
             System.out.println("________________________________________________________");
-            menuPrincipal(); // ir a menu principal
+            mainMenu(); // ir a menu principal
         }
     }
 
-    private static void iniciarSimulacionViaje(long tiempoEstimado) {
+    private static void startTravelSimulation(long tiempoEstimado) {
         // Calcular el tiempo estimado en milisegundos para la duración total del viaje
         long tiempoMilisegundos = tiempoEstimado * 3600 * 1000;
         // Establecer el tiempo que representa el progreso en porcentaje durante la
         // simulación
-        var tiempoPorcentaje = 15000;
+        var timePercentage = 15000;
         System.out.println("Iniciando simulacion del viaje....");
         // Bucle para simular el progreso del viaje en incrementos del 10%
         for (int i = 0; i <= 100; i += 10) {
@@ -361,7 +360,7 @@ public class App {
             if (i == 10) {
                 System.out.println(
                         "🚀 Apenas hemos alcanzado el 10% del viaje. Todo marcha según lo planeado, pero aún queda un largo camino por recorrer. Disfruta de las vistas del espacio infinito mientras continuamos hacia "
-                                + planetaSeleccionado + ". 🌌");
+                                + planetSelected + ". 🌌");
             } else if (i == 20) {
 
                 getAbrocharCinturon(); // Llama a un método para abrocharse el cinturón
@@ -374,15 +373,15 @@ public class App {
             } else if (i == 50) {
                 System.out.println("Mitad del camino.");
             } else if (i == 60) {
-                getEscudos(); // Llama a un método para activar los escudos
+                shields(); // Llama a un método para activar los escudos
             } else if (i == 70) {
-                getActivarModoDefensivo(); // Llama a un método para activar el modo defensivo
+                defensiveMode(); // Llama a un método para activar el modo defensivo
 
             } else if (i == 80) {
                 System.out.println("Contacto con base espacial cercana. Actualizando coordenadas.");
             } else if (i == 90) {
                 System.out.println("🌟 ¡Estamos al 90% del viaje! El destino está a la vista. Los sensores detectan a "
-                        + planetaSeleccionado
+                        + planetSelected
                         + " en el horizonte. 🪐 Prepárate para la llegada, ajustando sistemas y asegurando la nave. ¡La aventura está por comenzar! 🚀");
             } else if (i == 100) {
                 System.out.println("! El viaje ha finalizado con éxito. Disfruta de tu aventura!");
@@ -392,7 +391,7 @@ public class App {
             // Pausa la simulación por el tiempo especificado para imitar el progreso en
             // tiempo real
             try {
-                Thread.sleep(tiempoPorcentaje);
+                Thread.sleep(timePercentage);
             } catch (InterruptedException e) {
                 System.out.println("ERROR EN LA SIMULACION! " + e);
             }
@@ -400,51 +399,57 @@ public class App {
         }
         // Mensaje final al completar el viaje
         System.out.println("Viaje finalizado con exito!");
-        System.out.println("Haz llegado a " + planetaSeleccionado);
+        System.out.println("Haz llegado a " + planetSelected);
     }
 
-    private static void getEscudos() {
+    private static void shields() {
         // muestra el evento
-        System.out.println(
-                "La nave atraviesa una región de radiación cósmica. 🗳  Escribe 'Ajustar escudos'  🗳   para Ajustar los Escudos.");
-        String activarEscudos = entry.nextLine(); // captura la entrada del usuario
+        System.out.println("La nave atraviesa una región de radiación cósmica. ");
+        System.out.println("________________________________________________________________");
+        System.out.println("| 🗳  Escribe 'Ajustar escudos'  🗳   para Ajustar los Escudos. |");
+        System.out.println("________________________________________________________________");
+        String activateShields = entry.nextLine(); // captura la entrada del usuario
 
         // Verificar si la entrada del usuario es 'Ajustar escudos'
-        if (activarEscudos.equals("Ajustar escudos")) {
+        if (activateShields.equals("Ajustar escudos")) {
             System.out.println(" ⚙  Ajustando escudos.  ⚙ ");
             System.out.println(" ✅   ESCUDOS AJUSTADOS!");
         } else {
             // Si la entrada no es correcta, se informa al usuario y se vuelve a llamar al
             // método
             System.out.println("No se pudo activar los Escudos. Vuelva a intentarlo.");
-            getEscudos(); // Llama al método nuevamente para pedir la entrada correcta
+            shields(); // Llama al método nuevamente para pedir la entrada correcta
         }
     }
 
-    private static void getActivarModoDefensivo() {
+    private static void defensiveMode() {
         // muestra el evento
-        System.out.println(
-                "Detectamos una pequeña lluvia de meteoritos. 🗳  PRESIONE G para poner la Nave en modo defensivo.  🗳");
+        System.out.println("Detectamos una pequeña lluvia de meteoritos.");
+        System.out.println("_____________________________________________________________");
+        System.out.println("|  🗳  PRESIONE G para poner la Nave en modo defensivo.  🗳  |");
+        System.out.println("_____________________________________________________________");
 
         // Captura la entrada del usuario para activar el modo defensivo
-        String activarModoDefensivo = entry.nextLine().trim();
+        String activateDefensiveMode = entry.nextLine().trim();
 
         // Verifica si la entrada del usuario es 'G' para activar el modo defensivo
-        if (activarModoDefensivo.length() == 1 && activarModoDefensivo.equalsIgnoreCase("G")) {
+        if (activateDefensiveMode.length() == 1 && activateDefensiveMode.equalsIgnoreCase("G")) {
             System.out.println(" 🛡  Iniciando MODO DEFENSIVO...  🛡 ");
             System.out.println(" 🛡 MODO DEFENSIVO ACTIVADO  🛡  ");
         } else {
             // Si la entrada no es correcta, se informa al usuario y se vuelve a llamar al
             // método
             System.out.println("No se pudo activar el modo defensivo. Vuelva a intentarlo.");
-            getActivarModoDefensivo(); // llama al metodo nuevamente para pedir la entrada correcta
+            defensiveMode(); // llama al metodo nuevamente para pedir la entrada correcta
         }
     }
 
     private static void getAbrocharCinturon() {
         // muestra el evento
-        System.out.println(
-                "⚠ ¡ATENCION! ⚠ \nEstamos pasando en estos momentos por una lluvia de ☄ Meteoritos! Abroche su cinturon para salvaguardarse de las turbulencias.\n 🗳  OPRIMA LA LETRA C PARA ABROCHAR EL CINTURON  🗳");
+        System.out.println("⚠ ¡ATENCION! ⚠ \nEstamos pasando en estos momentos por una lluvia de ☄ Meteoritos! Abroche su cinturon para salvaguardarse de las turbulencias. ");
+        System.out.println(" _______________________________________________________");
+        System.out.println("|  🗳  OPRIMA LA LETRA C PARA ABROCHAR EL CINTURON  🗳  |");
+        System.out.println("________________________________________________________");
 
         // Captura la entrada del usuario para abrochar el cinturon
         String abrocharCinturon = entry.nextLine().trim();
@@ -461,7 +466,7 @@ public class App {
         }
     }
 
-    public static void imprimirInformacionPlaneta(int seleccionPlaneta) {
+    public static void printPlanetInformation(int seleccionPlaneta) {
         switch (seleccionPlaneta) {
             case 1:
 
