@@ -15,11 +15,11 @@ public class App {
 
     // INFORMACION DE LOS RECURSOS
     // consumo de combustible por hora
-    static double fuelHour = 2300.0; // Unidades consumidas por hora
+    static double fuelHour = 600.0; // Unidades consumidas por hora
     // consumo de oxígeno por hora
-    static double oxygenHour = 5000.0; // Unidades consumidas por hora
-    static long fuel = 100_000_000; // Unidades iniciales de combustible
-    static long oxygen = 100_000_000; // Unidades iniciales de oxígeno
+    static double oxygenHour = 3000.0; // Unidades consumidas por hora
+    static long fuel = 10_000_000; // Unidades iniciales de combustible
+    static long oxygen = 10_000_000; // Unidades iniciales de oxígeno
 
     // VARIABLES PARA ALMACENAR DATOS
     static String spaceShipSelected;
