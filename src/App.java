@@ -15,9 +15,9 @@ public class App {
 
     // INFORMACION DE LOS RECURSOS
     // consumo de combustible por hora
-    static double fuelHour = 200.0; // Unidades consumidas por hora
+    static double fuelHour = 2300.0; // Unidades consumidas por hora
     // consumo de oxígeno por hora
-    static double oxygenHour = 60.0; // Unidades consumidas por hora
+    static double oxygenHour = 5000.0; // Unidades consumidas por hora
     static long fuel = 100_000_000; // Unidades iniciales de combustible
     static long oxygen = 100_000_000; // Unidades iniciales de oxígeno
 
@@ -280,15 +280,16 @@ public class App {
             System.out.println("¡ATENCION! No hay recursos suficientes para completar el viaje");
             // Verificar si falta combustible
             if (fuel < fuelNeeded) {
-                double combustibleFaltante = fuelNeeded - fuel;
-                System.out.println("FALTA COMBUSTIBLE: " + fuel + " unidades.");
+                long combustibleFaltante = fuelNeeded - fuel;
+                System.out.println("FALTA COMBUSTIBLE: " + combustibleFaltante + " unidades.");
                 reloadFuel(combustibleFaltante); // llamar un metodo para recargar combustible
 
             }
             // Verificar si falta oxígeno
             if (oxygen < oxygenNeeded) {
-                System.out.println("FALTA OXÍGENO: " + (oxygenNeeded - oxygen) + " unidades.");
-                double oxigenoFaltante = oxygenNeeded - oxygen;
+                
+                long oxigenoFaltante = oxygenNeeded - oxygen;
+                System.out.println("FALTA OXÍGENO: " +oxigenoFaltante+" unidades.");
                 reloadOxygen(oxigenoFaltante); // llamar un metodo para recargar oxigeno
             }
         }
@@ -344,10 +345,9 @@ public class App {
     }
 
     private static void startTravelSimulation(long tiempoEstimado) {
-        // Calcular el tiempo estimado en milisegundos para la duración total del viaje
-        long tiempoMilisegundos = tiempoEstimado * 3600 * 1000;
-        // Establecer el tiempo que representa el progreso en porcentaje durante la
-        // simulación
+        // Este método simula un viaje a un planeta, mostrando el progreso en tiempo real y distintos eventos que ocurren durante el trayecto
+        
+        // Establecer un control para el tiempo de pausa entre cada paso del viaje
         var timePercentage = 15000;
         System.out.println("Iniciando simulacion del viaje....");
         // Bucle para simular el progreso del viaje en incrementos del 10%
