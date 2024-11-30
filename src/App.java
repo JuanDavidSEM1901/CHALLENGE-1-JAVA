@@ -28,6 +28,7 @@ public class App {
     static double speedSpaceShipSelected;
     static int option;
     static int optionSpaceShip;
+    static boolean travelCompleted = false;
 
     public static void main(String[] args) throws Exception {
         mainMenu(); // MOSTRAR MENU PRINCIPAL
@@ -102,10 +103,13 @@ public class App {
                         travelTime();
                         // recursos
                         verifyResources(distancePlanetSelected);
-                        if (option1Selected && option2Selected) { // SI LA NAVE Y EL PLANETA YA FUERON
-                                                                  // SELECCIONADOS
-                            startTravelSimulation(option); // INICIAR SIMULACION!
-
+                        if (option1Selected && option2Selected) { // SI LA NAVE Y EL PLANETA YA FUERON SELECCIONADOS
+                            if (travelCompleted == false) {
+                                startTravelSimulation(option); // INICIAR SIMULACION!
+                                break;
+                            }                                        
+                            
+                            
                         } else if (!option1Selected) { // SI LA OPCION DEL PLANETA NO HA SIDO SELECCIONADO
                             System.out.println("Primero debes seleccionar un planeta de destino (opción 1).");
                         } else { // SI LA NAVE NO HA SIDO SELECCIONADA
@@ -259,15 +263,20 @@ public class App {
         // Mostrar el oxígeno disponible
         System.out.println("Oxígeno disponible: " + oxygen + " unidades.");
         System.out.println("------------------------------------------------------------");
+
+        
+        
     }
 
-    public static void verifyResources(long distancias) {
+    public static boolean verifyResources(long estimatedTime) {
         // tiempo estimado en horas
         long estimatedTimeHours = (long) (distancePlanetSelected / speedSpaceShipSelected);
 
         // Calcular los recursos necesarios basados en el tiempo estimado de viaje
         long fuelNeeded = (long) (estimatedTimeHours * fuelHour);
         long oxygenNeeded = (long) (estimatedTimeHours * oxygenHour);
+
+        boolean hasEnoughResources = true;
 
         // verificar si hay recursos suficientes
         if (fuel >= fuelNeeded && oxygen >= oxygenNeeded) {
@@ -276,9 +285,9 @@ public class App {
             System.out.println("COMBUSTIBLE NECESARIO: " + fuelNeeded + " unidades");
             System.out.println("OXÍGENO NECESARIO: " + oxygenNeeded + " unidades");
         } else {
-            // Si no hay suficientes recursos, imprimir un mensaje de advertencia
-            System.out.println("¡ATENCION! No hay recursos suficientes para completar el viaje");
-            // Verificar si falta combustible
+            hasEnoughResources = false;
+            System.out.println("Recursos insuficientes para el viaje a " + planetSelected);
+            
             if (fuel < fuelNeeded) {
                 long combustibleFaltante = fuelNeeded - fuel;
                 System.out.println("FALTA COMBUSTIBLE: " + combustibleFaltante + " unidades.");
@@ -293,6 +302,8 @@ public class App {
                 reloadOxygen(oxigenoFaltante); // llamar un metodo para recargar oxigeno
             }
         }
+
+        return hasEnoughResources;
 
     }
 
@@ -309,6 +320,7 @@ public class App {
             // Aumentar la cantidad de oxígeno disponible
             oxygen += oxigenoFaltante;
             System.out.println("Oxígeno recargado!");
+            verifyResources(distancePlanetSelected);
             // Iniciar la simulación del viaje con la nueva cantidad de oxígeno
             startTravelSimulation(oxygen);
         } else {
@@ -333,6 +345,7 @@ public class App {
             // Aumentar la cantidad de combustible disponible
             fuel += combustibleFaltante;
             System.out.println("Combustible recargado!");
+            verifyResources(distancePlanetSelected);
             // Iniciar la simulación del viaje con la nueva cantidad de combustible
             startTravelSimulation(fuel);
         } else {
@@ -345,13 +358,18 @@ public class App {
     }
 
     private static void startTravelSimulation(long tiempoEstimado) {
+        if (travelCompleted) { 
+            System.out.println("El viaje ya ha sido completado."); 
+            return; 
+        }
         // Este método simula un viaje a un planeta, mostrando el progreso en tiempo real y distintos eventos que ocurren durante el trayecto
         
         // Establecer un control para el tiempo de pausa entre cada paso del viaje
-        var timePercentage = 15000;
+        var timePercentage = 5000;
         System.out.println("Iniciando simulacion del viaje....");
         // Bucle para simular el progreso del viaje en incrementos del 10%
         for (int i = 0; i <= 100; i += 10) {
+
             // Mostrar el progreso del viaje
             System.out.println("________________________________________");
             System.out.println(" |  🚀 Progreso del viaje " + i + "% 🚀  |");
@@ -385,7 +403,8 @@ public class App {
                         + " en el horizonte. 🪐 Prepárate para la llegada, ajustando sistemas y asegurando la nave. ¡La aventura está por comenzar! 🚀");
             } else if (i == 100) {
                 System.out.println("! El viaje ha finalizado con éxito. Disfruta de tu aventura!");
-
+                travelCompleted = true;
+                break;
             }
 
             // Pausa la simulación por el tiempo especificado para imitar el progreso en
@@ -400,6 +419,8 @@ public class App {
         // Mensaje final al completar el viaje
         System.out.println("Viaje finalizado con exito!");
         System.out.println("Haz llegado a " + planetSelected);
+        travelCompleted = true;
+        
     }
 
     private static void shields() {
