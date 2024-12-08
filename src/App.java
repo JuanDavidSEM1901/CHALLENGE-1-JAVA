@@ -1,3 +1,6 @@
+// GRUPO CONFORMADO POR:
+// JUAN DAVID RUIZ PEDRAZA Y ANDRES EDUARDO CANTILLO BARRIOS
+
 import java.util.Scanner;
 
 public class App {
@@ -365,7 +368,7 @@ public class App {
         // Este método simula un viaje a un planeta, mostrando el progreso en tiempo real y distintos eventos que ocurren durante el trayecto
         
         // Establecer un control para el tiempo de pausa entre cada paso del viaje
-        var timePercentage = 5000;
+        var timePercentage = 15000;
         System.out.println("Iniciando simulacion del viaje....");
         // Bucle para simular el progreso del viaje en incrementos del 10%
         for (int i = 0; i <= 100; i += 10) {
